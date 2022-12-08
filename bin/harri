@@ -13,12 +13,12 @@ class CLI
     options = {}
 
     option_parser = OptionParser.new do |opts|
-      opts.banner = "Usage: remove_redundant_imports -f FILE"
+      opts.banner = "Usage: harri -f FILE"
 
       opts.separator ""
 
       opts.separator "Example:"
-      opts.separator "  $ remove_redundant_imports -f ghcid.txt"
+      opts.separator "  $ harri -f ghcid.txt"
 
       opts.separator ""
 
