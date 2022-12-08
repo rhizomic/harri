@@ -1,0 +1,61 @@
+#!/usr/bin/env ruby
+
+$LOAD_PATH.unshift(File.dirname(File.realpath(__FILE__)) + '/../lib')
+
+require 'harri'
+require 'harri/version'
+
+require 'filewatcher'
+require 'optparse'
+
+class CLI
+  def self.parse_options(args)
+    options = {}
+
+    option_parser = OptionParser.new do |opts|
+      opts.banner = "Usage: remove_redundant_imports -f FILE"
+
+      opts.separator ""
+
+      opts.separator "Example:"
+      opts.separator "  $ remove_redundant_imports -f ghcid.txt"
+
+      opts.separator ""
+
+      opts.separator "Options:"
+
+      opts.on("-v", "--version", "Print the version") do |v|
+        puts "Harri v#{Harri::Version::VERSION}"
+        exit
+      end
+
+      opts.on_tail("-h", "--help", "Show this message") do
+        puts opts
+        exit
+      end
+
+      opts.on('-f', '--file FILE', 'The file containing GHC errors') do |file|
+        options[:file] = file
+      end
+    end
+
+    option_parser.parse!(args)
+
+    options
+  end
+end
+
+ARGV << '-h' if ARGV.empty? && $stdin.tty?
+cli_options = CLI.parse_options ARGV
+
+error_dir = File.expand_path(File.dirname cli_options[:file])
+error_log = File.read cli_options[:file]
+unused_import_errors = Harri.parse_unused_import_errors_from_log error_log
+
+unused_import_errors.each do |import_info|
+  source_location = File.join error_dir, import_info[:file]
+
+  file_contents = File.read source_location
+  replaced = Harri.remove_unused_imports file_contents, import_info
+  File.write source_location, replaced
+end
