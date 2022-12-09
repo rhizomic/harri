@@ -7,12 +7,6 @@ This tool does just that.
 
 ## Installation
 
-Install the gem and add to the application's `Gemfile` by executing:
-
-    $ bundle add harri
-
-If bundler is not being used to manage dependencies, install the gem by executing:
-
     $ gem install harri
 
 ## Usage
