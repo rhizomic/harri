@@ -43,7 +43,7 @@ module Harri
         (?:qualified\s*)?                 # zero or one literal "qualified" with optional space afterwards
         (?:as\s+[A-Z]+[a-zA-Z0-9.]*\s*)?  # zero or one literal "as `module_name`" with optional space afterwards
         (?:hiding\s*)?                    # zero or one literal "hiding" with optional space afterwards
-        (?:\([\s\S]*\))*                  # optional list of imports
+        (?:(\((?>[^)(]+|\g<1>)*\)))?      # zero or one list of imports (see https://stackoverflow.com/a/35271017)
         \n?                               # zero or one linebreak
       }x
     end
