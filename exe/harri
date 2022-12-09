@@ -1,12 +1,12 @@
 #!/usr/bin/env ruby
 
-$LOAD_PATH.unshift(File.dirname(File.realpath(__FILE__)) + '/../lib')
+$LOAD_PATH.unshift(__dir__ + "/../lib")
 
-require 'harri'
-require 'harri/version'
+require "harri"
+require "harri/version"
 
-require 'filewatcher'
-require 'optparse'
+require "filewatcher"
+require "optparse"
 
 class CLI
   def self.parse_options(args)
@@ -34,7 +34,7 @@ class CLI
         exit
       end
 
-      opts.on('-f', '--file FILE', 'The file containing GHC errors') do |file|
+      opts.on("-f", "--file FILE", "The file containing GHC errors") do |file|
         options[:file] = file
       end
     end
@@ -45,10 +45,10 @@ class CLI
   end
 end
 
-ARGV << '-h' if ARGV.empty? && $stdin.tty?
+ARGV << "-h" if ARGV.empty? && $stdin.tty?
 cli_options = CLI.parse_options ARGV
 
-error_dir = File.expand_path(File.dirname cli_options[:file])
+error_dir = File.expand_path(File.dirname(cli_options[:file]))
 error_log = File.read cli_options[:file]
 unused_import_errors = Harri.parse_unused_import_errors_from_log error_log
 
