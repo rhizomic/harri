@@ -81,10 +81,13 @@ module Harri
       unused_import_errors
     end
 
+    # Determines if the provided line is the beginning of a new error.
     def self.is_start_of_an_error?(line)
       line =~ Harri::Regexes::START_ERROR_REGEX
     end
 
+    # Determines if the provided line is the beginning of an "unused import"
+    # error.
     def self.is_unused_import_error?(line)
       line =~ Harri::Regexes::UNUSED_IMPORT_ERROR_REGEX
     end

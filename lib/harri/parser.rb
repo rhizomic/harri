@@ -4,6 +4,8 @@ require_relative "./regexes"
 
 module Harri
   module Parser
+    # Given an "unused import" error stanza, parses the involved filename,
+    # module, and unused imports.
     def self.parse_unused_import_error(lines)
       first_line = lines[0]
       remaining_lines = lines.drop 1
