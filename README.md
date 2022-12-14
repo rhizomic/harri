@@ -16,6 +16,9 @@ auto-strip the unused imports from the affected files:
 
     $ harri -f ghcid.txt
 
+Note that the files mentioned in the log are considered _relative_ to the 
+location of the log itself.
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run
