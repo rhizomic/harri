@@ -27,7 +27,7 @@ module Harri
     }x
 
     # Intended to capture the scenario when an entire module is redundant.
-    ENTIRE_MODULE_REDUNDANT_REGEX = /The import of ‘(.+)’ is redundant except.*/
+    ENTIRE_MODULE_REDUNDANT_REGEX = /The(?: qualified)? import of ‘(.+)’ is redundant except.*/
 
     # Intended to capture the scenario when specific imports within a module are redundant.
     REDUNDANT_IMPORTS_WITHIN_MODULE_REGEX = /The import of ‘(.+)’ from module ‘(.+)’ is redundant.*/

@@ -13,6 +13,14 @@ src/Module/TypeGenerator/Generate.hs:31:1: error: [-Wunused-imports, -Werror=unu
 31 | import Alpha.Beta.Status
    | ^^^^^^^^^^^^^^^^^^^^^^^^
 
+src/Module/TypeGenerator/Generate.hs:35:1: error: [-Wunused-imports, -Werror=unused-imports]
+    The qualified import of ‘Network.HTTP.Types.Status’ is redundant
+      except perhaps to import instances from ‘Network.HTTP.Types.Status’
+    To import instances alone, use: import Network.HTTP.Types.Status()
+   |
+77 | import Network.HTTP.Types.Status qualified as Status
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 src/Module/TypeGenerator/Generate.hs:712:14: error:
     Not in scope: type constructor or class ‘Foo’
     |
@@ -33,6 +41,11 @@ src/Module/TypeGenerator/OtherGenerator.hs:31:1: error: [-Wunused-imports, -Werr
       {
         file: "src/Module/TypeGenerator/Generate.hs",
         module: "Alpha.Beta.Status",
+        imports: []
+      },
+      {
+        file: "src/Module/TypeGenerator/Generate.hs",
+        module: "Network.HTTP.Types.Status",
         imports: []
       },
       {
