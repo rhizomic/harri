@@ -5,7 +5,6 @@ $LOAD_PATH.unshift(__dir__ + "/../lib")
 require "harri"
 require "harri/version"
 
-require "filewatcher"
 require "optparse"
 
 class CLI
