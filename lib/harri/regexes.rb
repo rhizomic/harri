@@ -23,7 +23,8 @@ module Harri
       \s                                             # space
       error:                                         # literal "error:"
       \s                                             # space
-      \[-Wunused-imports,\s-Werror=unused-imports\]  # literal "[-Wunused-imports, -Werror=unused-imports]"
+      \[-Wunused-imports,\s-?Werror=unused-imports\] # literal "[-Wunused-imports, -Werror=unused-imports]"
+                                                     # with an optional dash attached to Werror
     }x
 
     # Intended to capture the scenario when an entire module is redundant.

@@ -56,6 +56,28 @@ src/Module/TypeGenerator/OtherGenerator.hs:31:1: error: [-Wunused-imports, -Werr
     ]
 
     assert_equal expected, actual
+
+    # GHC 9.6 doesn't have a dash prefixed to Werror
+    log = %(
+src/Module/TypeGenerator/Generate.hs:7:1: error: [-Wunused-imports, Werror=unused-imports]
+    The import of ‘Alpha.Beta.Status’ is redundant
+      except perhaps to import instances from ‘Alpha.Beta.Status’
+    To import instances alone, use: import Alpha.Beta.Status()
+  |
+7 | import Alpha.Beta.Status
+  | ^^^^^^^^^^^^^^^^^^^^^^^^
+)
+
+    actual = Harri.parse_unused_import_errors_from_log log
+    expected = [
+      {
+        file: "src/Module/TypeGenerator/Generate.hs",
+        module: "Alpha.Beta.Status",
+        imports: []
+      },
+    ]
+
+    assert_equal expected, actual
   end
 
   def test_remove_unused_imports
