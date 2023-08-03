@@ -2,13 +2,13 @@ module Harri
   module Regexes
     # Intended to capture the first line of an error within GHC's output.
     START_ERROR_REGEX = %r{
-      (.*\.hs)  # filename
-      :         # literal colon
-      \d+       # line number
-      :         # literal colon
-      \d+       # column number
-      :         # literal colon
-      \s        # space
+      (.*\.hs)                 # filename
+      :                        # literal colon
+      \d+                      # line number
+      :                        # literal colon
+      (\d+)(?:-(\d+))?         # column number
+      :                        # literal colon
+      \s                       # space
       error:.*  # literal "error:" with possible marker
     }x
 
@@ -18,7 +18,7 @@ module Harri
       :                                              # literal colon
       \d+                                            # line number
       :                                              # literal colon
-      \d+                                            # column number
+      (\d+)(?:-(\d+))?                               # column number
       :                                              # literal colon
       \s                                             # space
       error:                                         # literal "error:"
@@ -28,7 +28,7 @@ module Harri
     }x
 
     # Intended to capture the scenario when an entire module is redundant.
-    ENTIRE_MODULE_REDUNDANT_REGEX = /The(?: qualified)? import of ‘(.+)’ is redundant except.*/
+    ENTIRE_MODULE_REDUNDANT_REGEX =/The(?: qualified)? import of ‘([^’]+)’ is redundant(?!.*from module)/
 
     # Intended to capture the scenario when specific imports within a module are redundant.
     REDUNDANT_IMPORTS_WITHIN_MODULE_REGEX = /The import of ‘(.+)’ from module ‘(.+)’ is redundant.*/

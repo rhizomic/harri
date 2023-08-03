@@ -35,6 +35,12 @@ src/Module/TypeGenerator/OtherGenerator.hs:31:1: error: [-Wunused-imports, -Werr
 31 | import Alpha.Beta.Status.Types ( ImportantImport, RedundantImport, UsedImport, AnotherRedundantImport, unusedFunction,)
    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+src/Module/Network/Client.hs:12:1-10: error: [-Wunused-imports, -Werror=unused-imports]
+   The import of ‘Alpha.Beta.Status’ is redundant
+   |
+12 | import Alpha.Beta.Status
+   | ^^^^^^^^^^^^^^^^^^^^^^^^
+
 )
     actual = Harri.parse_unused_import_errors_from_log log
     expected = [
@@ -52,7 +58,12 @@ src/Module/TypeGenerator/OtherGenerator.hs:31:1: error: [-Wunused-imports, -Werr
         file: "src/Module/TypeGenerator/OtherGenerator.hs",
         module: "Alpha.Beta.Status.Types",
         imports: ["RedundantImport", "AnotherRedundantImport", "unusedFunction"]
-      }
+      },
+      {
+        file: "src/Module/Network/Client.hs",
+        module: "Alpha.Beta.Status",
+        imports: []
+      },
     ]
 
     assert_equal expected, actual
