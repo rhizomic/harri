@@ -41,6 +41,16 @@ src/Module/Network/Client.hs:12:1-10: error: [-Wunused-imports, -Werror=unused-i
 12 | import Alpha.Beta.Status
    | ^^^^^^^^^^^^^^^^^^^^^^^^
 
+src/Module/Network/Server.hs:4:22: error: [-Wunused-imports, Werror=unused-imports]
+    The import of ‘ServerError’ from module ‘Server’ is redundant
+  |
+4 | import Server (HTTP, ServerError (..))
+
+src/Module/Network/Types.hs:4:13: error: [-Wunused-imports, Werror=unused-imports]
+    The import of ‘Foo’ from module ‘Foo’ is redundant
+  |
+4 | import Foo (FooBar, Foo (..), FooM)
+
 )
     actual = Harri.parse_unused_import_errors_from_log log
     expected = [
@@ -63,6 +73,16 @@ src/Module/Network/Client.hs:12:1-10: error: [-Wunused-imports, -Werror=unused-i
         file: "src/Module/Network/Client.hs",
         module: "Alpha.Beta.Status",
         imports: []
+      },
+      {
+        file: "src/Module/Network/Server.hs",
+        module: "Server",
+        imports: ["ServerError"]
+      },
+      {
+        file: "src/Module/Network/Types.hs",
+        module: "Foo",
+        imports: ["Foo"]
       },
     ]
 
@@ -109,6 +129,8 @@ import Alpha.Beta.Status.Types
     unusedFunction,
   )
 import Data.Text qualified as T (lines, pack, splitOn, strip, toLower, unpack)
+import Foo (FooBar, Foo (..), FooM)
+import Server (HTTP, ServerError (..))
 import Some.Other.Module qualified as ReallyImportantModule
 ).strip
 
@@ -132,6 +154,16 @@ import Some.Other.Module qualified as ReallyImportantModule
         file: "src/Module/TypeGenerator/Generate.hs",
         module: "Data.Text",
         imports: ["pack"]
+      },
+      {
+        file: "src/Module/Network/Server.hs",
+        module: "Server",
+        imports: ["ServerError"]
+      },
+      {
+        file: "src/Module/Network/Types.hs",
+        module: "Foo",
+        imports: ["Foo"]
       }
     ]
 
@@ -151,6 +183,8 @@ import Alpha.Beta.Status.Types
     UsedImport,
     )
 import Data.Text qualified as T (lines, splitOn, strip, toLower, unpack)
+import Foo (FooBar, FooM)
+import Server (HTTP, )
 import Some.Other.Module qualified as ReallyImportantModule
 ).strip
 

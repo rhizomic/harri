@@ -15,12 +15,16 @@ module Harri
         # There are no imports, so the whole module is redundant.
         text.sub(/^#{Regexp.quote(match[0])}/, "")
       else
+        module_imports = match[1]
+        return text if !module_imports
+
         # Filter out specific imports within the module.
-        filtered_imports = import_info[:imports].reduce(match[0]) do |result, import|
+        filtered_imports = import_info[:imports].reduce(module_imports) do |result, import|
           reference_regex = Harri::Regexes.named_reference_regex import
           result.sub reference_regex, ""
         end
-        text.sub match[0], filtered_imports
+        replaced_imports = match[0].sub module_imports, filtered_imports
+        text.sub match[0], replaced_imports
       end
     end
   end

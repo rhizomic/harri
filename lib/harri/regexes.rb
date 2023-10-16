@@ -44,7 +44,7 @@ module Harri
         (?:qualified\s*)?                 # zero or one literal "qualified" with optional space afterwards
         (?:as\s+[A-Z]+[a-zA-Z0-9.]*\s*)?  # zero or one literal "as `module_name`" with optional space afterwards
         (?:hiding\s*)?                    # zero or one literal "hiding" with optional space afterwards
-        (?:(\((?>[^)(]+|\g<1>)*\)))?      # zero or one list of imports (see https://stackoverflow.com/a/35271017)
+        ((\((?>[^)(]+|\g<1>)*\)))?        # zero or one list of imports (see https://stackoverflow.com/a/35271017)
         \n?                               # zero or one linebreak
       }x
     end
@@ -53,6 +53,7 @@ module Harri
     def self.named_reference_regex(reference)
       %r{
         \b#{Regexp.quote reference}\b  # match "`reference`" exactly as a single word
+        (?:\s*\(\.\.\))?               # zero or one instances of optional space followed by a literal "(..)"
         (?:\s*,?)?                     # zero or one instances of optional space followed by zero or one comma
         \s*                            # optional space
       }x
