@@ -36,10 +36,11 @@ module Harri
     # Intended to capture a full import declaration within a Haskell module.
     def self.import_declaration_regex(module_name)
       %r{
-        ^import                           # literal "import"
+        ^import                           # literal "import" at start of line
         \s+                               # one or more spaces
         (?:qualified\s*)?                 # zero or one literal "qualified" with optional space afterwards
-        #{Regexp.quote module_name}       # match "import `module_name`" at start of line
+        #{Regexp.quote module_name}       # match "`module_name`"
+        (?!\S)                            # assert that the next character is not a non-whitespace character (see https://stackoverflow.com/a/18005390)
         \s*                               # optional space
         (?:qualified\s*)?                 # zero or one literal "qualified" with optional space afterwards
         (?:as\s+[A-Z]+[a-zA-Z0-9.]*\s*)?  # zero or one literal "as `module_name`" with optional space afterwards

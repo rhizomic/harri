@@ -191,6 +191,75 @@ import Some.Other.Module qualified as ReallyImportantModule
     assert_equal expected, actual
   end
 
+  def test_exact_module_is_removed
+    # Note that we deliberately place "import Alpha.Beta" below the other
+    # "import Alpha.Beta*" imports so as to ensure that we're testing its
+    # exact removal and not instead relying on behavior implicit in `sub`
+    # (i.e., remove the first match).
+    text = %(
+import Alpha.BetaV2
+import Alpha.Beta.Gamma
+import Alpha.Beta
+import Beta.Gamma
+).strip
+
+    import_infos = [
+      {
+        file: "src/Module/TypeGenerator/Generate.hs",
+        module: "Alpha.Beta",
+        imports: []
+      },
+    ]
+
+    actual = import_infos.reduce(text) do |final, import_info|
+      Harri.remove_unused_imports final, import_info
+    end
+
+    expected = %(
+import Alpha.BetaV2
+import Alpha.Beta.Gamma
+import Beta.Gamma
+).strip
+
+    assert_equal expected, actual
+  end
+
+  def test_exact_module_and_imports_are_removed
+    # Note that we deliberately place "import Alpha.Beta" below the other
+    # "import Alpha.Beta*" imports so as to ensure that we're testing its
+    # exact removal and not instead relying on behavior implicit in `sub`
+    # (i.e., remove the first match).
+    text = %(
+import Alpha.BetaV2
+import Alpha.Beta.Gamma
+import Alpha.Beta
+  (notUsedAtAll,
+   unusedFunction
+  )
+import Beta.Gamma
+).strip
+
+    import_infos = [
+      {
+        file: "src/Module/TypeGenerator/Generate.hs",
+        module: "Alpha.Beta",
+        imports: []
+      },
+    ]
+
+    actual = import_infos.reduce(text) do |final, import_info|
+      Harri.remove_unused_imports final, import_info
+    end
+
+    expected = %(
+import Alpha.BetaV2
+import Alpha.Beta.Gamma
+import Beta.Gamma
+).strip
+
+    assert_equal expected, actual
+  end
+
   def test_import_declaration_regex
     declarations = [
       # Vanilla Haskell
