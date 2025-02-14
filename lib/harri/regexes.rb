@@ -9,7 +9,7 @@ module Harri
       (\d+)(?:-(\d+))?         # column number
       :                        # literal colon
       \s                       # space
-      error:.*  # literal "error:" with possible marker
+      error:.*                 # literal "error:" with possible marker
     }x
 
     # Intended to capture an unused import error within GHC's output.
@@ -23,6 +23,7 @@ module Harri
       \s                                             # space
       error:                                         # literal "error:"
       \s                                             # space
+      (\[GHC.*\]\s)?                                 # optional [GHC-*] error code, followed by a space
       \[-Wunused-imports,\s-?Werror=unused-imports\] # literal "[-Wunused-imports, -Werror=unused-imports]"
                                                      # with an optional dash attached to Werror
     }x
